@@ -24,8 +24,6 @@ public class DistanceCalculator {
         System.out.print("Distance Calculation Type (P-laner, S-pherical): ");
         String lastName2 = src.nextLine();
 
-        src.close();
-
 
         double lat1 = Math.toRadians(latitude1);
         double lon1 = Math.toRadians(longitude1);
