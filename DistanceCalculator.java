@@ -35,7 +35,7 @@ public class DistanceCalculator {
         // This is the formula to calculate the planar distance between 2 given points (x,y)
         double D = EARTH_RADIUS * Math.sqrt(Math.pow(difflat,2) + Math.pow(Math.cos(avlat) * difflon, 2));
          // This displays the output from the cumputation of the planar distance formula
-         System.out.println("Planar Distance: " + D);
+         System.out.println("Planar Distance: " + String.format("%.2f",D) + " mi");
         return D;
     }
 
@@ -56,55 +56,70 @@ public class DistanceCalculator {
         double lat2 = Math.toRadians(latitude2);
         double lon2 = Math.toRadians(longitude2);
 
+        double difflon = lon2 - lon1; // calculates the difference between both longitudes in radians
+
         //formula to calculate the Spherical distance
-        double D = EARTH_RADIUS * Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lon1) * Math.cos(lon2));
+        double D = EARTH_RADIUS * Math.acos((Math.sin(lat1) * Math.sin(lat2)) + (Math.cos(lat1) * Math.cos(lat2) * Math.cos(difflon)));
         // will display the calculated spherical distance above if all user inputs are within correct ranges
-        System.out.println("Spherical Distance: " + D);
+        System.out.println("Spherical Distance: " + String.format("%.2f",D) + " mi");
         return D;
     }
     public static void main(String[]args) {
-        Scanner src = new Scanner(System.in);
+        Scanner src = new Scanner(System.in); // initialize scanner to be called later on for input
         
         // prompt the user to input the first Latitude and calls scanner to get an input as a double
         System.out.print("Location 1 Latitude: ");
         Double latitude1 = src.nextDouble();
+        
+        //will check if the user input for the latitude is within the required range
+        if (latitude1 < MIN_LATITUDE || latitude1 > MAX_LATITUDE){
+            System.out.println("Invalid latitude");
+            System.exit(1); //exits the program
+        }
         // prompt the user to input the first longitude and calls scanner to get an input as a double
         System.out.print("Location 1 Longitude: ");
         Double longitude1 = src.nextDouble();
 
+        //will check if the user input for the longitude is within the required range
+        if (longitude1 < MIN_LONGITUDE || longitude1 > MAX_LONGITUDE){
+            System.out.println("Invalid longitude");
+            System.exit(1); //exits the program
+        }
+
         // prompt the user to input the second Latitude and calls scanner to get an input as a double
         System.out.print("Location 2 Latitude: ");
         Double latitude2 = src.nextDouble();
+
+        //will check to see if the user input for the latitude is within the expected range else the program will quit after error message
+        if (latitude2 < MIN_LATITUDE || latitude2 > MAX_LATITUDE){
+            System.out.println("Invalid latitude");
+            System.exit(1);
+        }
         // prompt the user to input the second Longitude and calls scanner to get an input as a double
         System.out.print("Location 2 Longitude: ");
         Double longitude2 = src.nextDouble();
 
-        // prompt the user to input the Distrance calculation type and calls scanner to get an input as a String
-        System.out.print("Distance Calculation Type (P-laner, S-pherical): ");
-        String dctype = src.next();
-
-       
-        //if else if statement to check validity of user input for longitudes and latitudes to make sure they are within the correct range
-        if ((latitude1 < MIN_LATITUDE || latitude1 > MAX_LATITUDE) || (latitude2 < MIN_LATITUDE || latitude2 > MAX_LATITUDE)){
-           // System.out.println("Error: Your latitude can only be between -90 and 90");
+        //will check to see if the user input for the longitude is within the expected range else the program will quit after error message
+        if (longitude2 < MIN_LONGITUDE || longitude2 > MAX_LONGITUDE){
+            System.out.println("Invalid longitude");
             System.exit(1);
         }
-        else if  ((longitude1 < MIN_LONGITUDE || longitude1 > MAX_LONGITUDE) || (longitude2 < MIN_LONGITUDE || longitude2 > MAX_LONGITUDE)) {
-          //  System.out.println("Error: Your longitude can only be between -180 and 180");
-            System.exit(1);
+
+          // prompt the user to input the Distrance calculation type and calls scanner to get an input as a String
+          System.out.print("Distance Calculation Type (P-laner, S-pherical): ");
+          String dctype = src.next();
+
+        if ((dctype.equals("P")) || (dctype.equals("p"))){
+            calculatesPlanarDistance(latitude1, longitude1, latitude2, longitude2); //check to see if user input for string is P or p and calls the method to calculate the planar distance
+        }
+        else if ((dctype.equals("S")) || (dctype.equals("s")) ){
+            calculateSphericalDistance(latitude1, longitude1, latitude2, longitude2); // check to see if use input for string is S or s and calls the method to calculate the spherical distance
         } 
-
-        if (dctype == "P"){
-            calculatesPlanarDistance(latitude1, longitude1, latitude2, longitude2);
-        }
-        else if (dctype == "S"){
-            calculateSphericalDistance(latitude1, longitude1, latitude2, longitude2);
-
+        else {
+            System.out.println("Invalid Type");
+            System.exit(1); // if user input for string is neither P,p,S, or s, then the program displays and error message and exits
         }
 
-
-       
-      
        
 
     }
