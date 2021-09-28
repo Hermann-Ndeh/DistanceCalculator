@@ -1,5 +1,10 @@
 
-
+/**
+ * DistanceCalculator Program (Project 1 for CSC 116)
+ * @author Hermann Nji Ndeh
+ * 09/07/2021
+ * 
+ */
 import java.util.Scanner;
 
 public class DistanceCalculator {
@@ -35,7 +40,7 @@ public class DistanceCalculator {
         // This is the formula to calculate the planar distance between 2 given points (x,y)
         double D = EARTH_RADIUS * Math.sqrt(Math.pow(difflat,2) + Math.pow(Math.cos(avlat) * difflon, 2));
          // This displays the output from the cumputation of the planar distance formula
-         System.out.println("Planar Distance: " + String.format("%.2f",D) + " mi");
+         System.out.printf("Planar Distance: " + "%.2f mi\n",D);
         return D;
     }
 
@@ -61,7 +66,7 @@ public class DistanceCalculator {
         //formula to calculate the Spherical distance
         double D = EARTH_RADIUS * Math.acos((Math.sin(lat1) * Math.sin(lat2)) + (Math.cos(lat1) * Math.cos(lat2) * Math.cos(difflon)));
         // will display the calculated spherical distance above if all user inputs are within correct ranges
-        System.out.println("Spherical Distance: " + String.format("%.2f",D) + " mi");
+        System.out.printf("Spherical Distance: " + "%.2f mi\n",D);
         return D;
     }
     public static void main(String[]args) {
